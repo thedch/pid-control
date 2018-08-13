@@ -35,8 +35,8 @@ int main()
 {
   uWS::Hub h;
 
-  PID steering_pid(0.1, 0, 0, true);
-  PID throttle_pid(10, 0, 0, false);
+  PID steering_pid(0.1, 0, 0.3, true);
+  PID throttle_pid(10, 0, 1, false);
 
   h.onMessage([&steering_pid, &throttle_pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
