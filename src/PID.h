@@ -12,15 +12,18 @@ public:
 
   /*
   * Coefficients
-  */ 
+  */
   double Kp;
   double Ki;
   double Kd;
+  double pid_previous_error;
+  double pid_integral;
 
+  bool is_steer;
   /*
   * Constructor
   */
-  PID();
+  PID(double Kp, double Ki, double Kd, bool is_steer_);
 
   /*
   * Destructor.
@@ -35,7 +38,7 @@ public:
   /*
   * Update the PID error variables given cross track error.
   */
-  void UpdateError(double cte);
+  double UpdateError(double cte);
 
   /*
   * Calculate the total PID error.
