@@ -13,7 +13,8 @@ constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 
-#define DESIRED_THROTTLE 25
+#define MAX_THROTTLE 25
+#define CTE_MULT 5
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -57,20 +58,13 @@ int main()
           double new_steer_value = steering_pid.UpdateError(cte);
           new_steer_value = max(min(new_steer_value, 1.0), -1.0) * -1;
 
-          double throttle_error = DESIRED_THROTTLE - speed;
+          double desired_speed = MAX_THROTTLE - (cte * CTE_MULT);
+          desired_speed = max(desired_speed, 2.0);
+          double throttle_error = desired_speed - speed;
           double new_throttle_value = throttle_pid.UpdateError(throttle_error);
 
-
-          /*
-          * TODO: Calcuate steering value here, remember the steering value is
-          * [-1, 1].
-          * NOTE: Feel free to play around with the throttle and speed. Maybe use
-          * another PID controller to control the speed!
-          */
-
-          // DEBUG
-          // cout << "CTE: " << cte << endl;
-          // cout << "New Steering Angle: " << new_steer_value << endl;
+          cout << "CTE: " << cte << " Angle " << new_steer_value << " " <<
+          " Throttle " << new_throttle_value << endl;
 
           json msgJson;
           msgJson["steering_angle"] = new_steer_value;

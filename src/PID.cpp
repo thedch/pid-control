@@ -26,11 +26,6 @@ double PID::UpdateError(double error) {
 
   double new_angle = (Kp * error) + (Ki * pid_integral) + (Kd * pid_derivative);
 
-  if (is_steer) {
-    cout << "DEBUG: " << error << " " << Kp << " " <<
-    Ki << " " << Kd << " " << new_angle << endl;
-  }
-
   return new_angle;
 }
 
